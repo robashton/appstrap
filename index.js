@@ -21,6 +21,8 @@ System.prototype = {
       }
     })
     this.waitForReady(cb)
+    process.on('exit', this.stop.bind(this))
+
   },
   waitForReady: function(cb) {
     var system = this
@@ -43,7 +45,9 @@ System.prototype = {
     })
   },
   stop: function() {
+    if(!this.server) return
     this.server.kill('SIGKILL')
+    this.server = null
   }
 }
 
